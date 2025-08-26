@@ -18,7 +18,7 @@ export const PreviewPanel: FC<PreviewPanelProps> = ({ code }) => {
     if (!code.html.trim()) {
       doc.open();
       doc.write(
-        `<html><body><p style="color:gray;padding:1rem;">No HTML yet</p></body></html>`
+        `<html class="globalFont"><body><p style="color:gray;padding:1rem;">No HTML yet</p></body></html>`
       );
       doc.close();
       return;
@@ -26,7 +26,7 @@ export const PreviewPanel: FC<PreviewPanelProps> = ({ code }) => {
 
     doc.open();
     doc.write(`
-      <html>
+      <html class="globalFont">
         <head>
           <style>${code.css}</style>
         </head>
