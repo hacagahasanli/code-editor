@@ -1,20 +1,22 @@
-"use client"
-
-import { useCode } from "~/hooks/useCode";
+"use client";
 
 import { EditorTabs } from "~/components/ui/EditorTabs";
 import { PreviewPanel } from "~/components/ui/PreviewPanel";
+
+import { useCode } from "~/hooks/useCode";
 
 export default function Home() {
   const { code, updateCode } = useCode();
 
   return (
-    <main className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-indigo-50 to-white">
-      <div className="md:w-1/2 p-4 h-[90vh] flex flex-col shadow-lg bg-white rounded-l-lg">
+    <main className="min-h-screen flex md:flex-row flex-col gap-4 bg-gray-100 p-4">
+      <div className="md:w-1/2 flex flex-col h-[90vh] rounded shadow-lg overflow-hidden">
+        <h2 className="text-xl font-bold p-2 border-b">Code Editor</h2>
         <EditorTabs code={code} updateCode={updateCode} />
       </div>
 
-      <div className="md:w-1/2 p-4 h-[90vh]">
+      <div className="md:w-1/2 flex flex-col h-[90vh] rounded shadow-lg overflow-hidden">
+        <h2 className="text-xl font-bold p-2 border-b">Live Preview</h2>
         <PreviewPanel code={code} />
       </div>
     </main>

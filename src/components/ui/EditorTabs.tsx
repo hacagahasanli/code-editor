@@ -1,91 +1,53 @@
 "use client";
-import { FC, useState } from "react";
 
-import Editor from "@monaco-editor/react";
+import { FC, useState } from "react";
 
 import { Code, CodeTab } from "~/hooks/useCode";
 
-import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { CustomEditor } from "./CustomEditor/CustomEditor";
 
 interface EditorTabsProps {
   code: Code;
   updateCode: (tab: CodeTab, value: string) => void;
 }
 
-const tabs: CodeTab[] = ["html", "css", "js", "jsx"];
+const tabs: CodeTab[] = ["html", "css", "js"];
 
 export const EditorTabs: FC<EditorTabsProps> = ({ code, updateCode }) => {
   const [activeTab, setActiveTab] = useState<CodeTab>("html");
-  const [theme, setTheme] = useState<"vs-dark" | "vs-light">("vs-dark");
-
-  const isDark = theme === "vs-dark";
-
-  const languageMap: Record<CodeTab, string> = {
-    html: "html",
-    css: "css",
-    js: "javascript",
-    jsx: "javascript",
-  };
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
 
   return (
     <div className="flex flex-col h-full">
-      <div className={`flex items-center justify-between rounded-t-md ${isDark ? "bg-gray-800" : ""}`}>
-        <Tabs
-          value={activeTab}
-          onValueChange={(val) => setActiveTab(val as CodeTab)}
-          className="flex-1"
-        >
-          <TabsList
-            className={`flex  text-white ${isDark ? "bg-gray-800" : ""}`}
-          >
-            {tabs.map((tab) => (
-              <TabsTrigger
-                key={tab}
-                value={tab}
-                className={`capitalize px-4 py-2 text-sm font-medium ${
-                  isDark ? "hover:bg-gray-700" : ""
-                } `}
-              >
-                {tab}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
-
+      <div className="flex items-center justify-between rounded-t-md">
+        <div className="flex py-1 px-2">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              className={`px-4 py-2 font-medium text-sm rounded-sm transition-all duration-300 ${
+                activeTab === tab ? "bg-gray-700 text-white" : "text-gray-800"
+              }`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab.toUpperCase()}
+            </button>
+          ))}
+        </div>
         <button
-          className={`text-sm px-3 py-1 mr-2  rounded text-white ${
-            true ? "bg-gray-700 hover:bg-gray-600" : ""
-          }`}
-          onClick={() => setTheme(() => (isDark ? "vs-light" : "vs-dark"))}
+          className="px-3 py-1 mr-2 bg-gray-700 rounded text-white hover:bg-gray-600"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         >
-          {theme === "vs-dark" ? "Light" : "Dark"}
+          {theme === "dark" ? "Light" : "Dark"}
         </button>
       </div>
 
-      <div className={`flex-1 ${isDark ? "bg-gray-800" : ""}`}>
-        <Editor
-          height="100%"
+      <div className="flex-1">
+        <CustomEditor
           theme={theme}
-          className="pb-2"
+          language={activeTab}
           value={code[activeTab]}
-          language={languageMap[activeTab]}
-          onChange={(val) => updateCode(activeTab, val || "")}
-          options={{
-            fontSize: 14,
-            wordWrap: "on",
-            autoIndent: "full",
-            formatOnType: true,
-            formatOnPaste: true,
-            smoothScrolling: true,
-            automaticLayout: true,
-            minimap: { enabled: false },
-            autoClosingQuotes: "always",
-            autoClosingBrackets: "always",
-            autoClosingOvertype: "always",
-            autoSurround: "languageDefined",
-            fontFamily: "'Fira Code', monospace",
-            scrollbar: { verticalScrollbarSize: 10 },
-          }}
+          // eslint-disable-next-line
+          onChange={(val: any) => updateCode(activeTab, val)}
         />
       </div>
     </div>

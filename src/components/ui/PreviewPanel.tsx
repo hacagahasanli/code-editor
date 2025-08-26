@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useRef } from "react";
+import { FC, useRef, useEffect } from "react";
 
 import { Code } from "~/hooks/useCode";
 
@@ -17,13 +17,9 @@ export const PreviewPanel: FC<PreviewPanelProps> = ({ code }) => {
 
     if (!code.html.trim()) {
       doc.open();
-      doc.write(`
-        <html>
-          <body>
-            <p style="color:gray; font-family:sans-serif">No HTML content yet</p>
-          </body>
-        </html>
-      `);
+      doc.write(
+        `<html><body><p style="color:gray;padding:1rem;">No HTML yet</p></body></html>`
+      );
       doc.close();
       return;
     }
@@ -36,7 +32,7 @@ export const PreviewPanel: FC<PreviewPanelProps> = ({ code }) => {
         </head>
         <body>
           ${code.html}
-          ${code.js.trim() ? `<script>${code.js}<\/script>` : ""}
+          ${code.js ? `<script>${code.js}<\/script>` : ""}
         </body>
       </html>
     `);
@@ -44,13 +40,10 @@ export const PreviewPanel: FC<PreviewPanelProps> = ({ code }) => {
   }, [code]);
 
   return (
-    <div className="h-[83.8vh]">
-      <h2 className="text-xl font-bold mb-2">Live Preview</h2>
-      <iframe
-        ref={iframeRef}
-        sandbox="allow-scripts allow-same-origin"
-        className="w-full h-full border rounded-md shadow-lg"
-      ></iframe>
-    </div>
+    <iframe
+      ref={iframeRef}
+      sandbox="allow-scripts allow-same-origin"
+      className="w-full h-full border rounded-md shadow-lg"
+    />
   );
 };
