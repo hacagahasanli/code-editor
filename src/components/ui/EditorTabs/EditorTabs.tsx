@@ -4,7 +4,7 @@ import { FC, useState } from "react";
 
 import { Code, CodeTab } from "~/hooks/useCode";
 
-import { CustomEditor } from "./CustomEditor/CustomEditor";
+import { CustomEditor } from "../CustomEditor/CustomEditor";
 
 interface EditorTabsProps {
   code: Code;

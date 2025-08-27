@@ -1,6 +1,6 @@
 "use client";
 
-import { EditorTabs } from "~/components/ui/EditorTabs";
+import { EditorTabs } from "~/components/ui/EditorTabs/EditorTabs";
 import { PreviewPanel } from "~/components/ui/PreviewPanel/PreviewPanel";
 
 import { useCode } from "~/hooks/useCode";
